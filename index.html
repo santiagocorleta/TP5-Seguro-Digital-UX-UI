@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cubrí Seguros - Flujo de Contratación</title>
+    <!-- Basecoat UI (estilos de componentes) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/basecoat-css@1.1.0/dist/basecoat.cdn.min.css">
+    <!-- Tailwind v4 en el navegador (utilidades) -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="css/tokens.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script type="module" src="js/app.js"></script>
+</head>
+<body class="bg-[var(--bg)] text-[var(--text)] font-['Inter',sans-serif] min-h-screen flex flex-col justify-between overflow-x-hidden min-w-[320px]">
+
+    <!-- Header general -->
+    <header class="bg-white border-b border-[var(--border)] px-4 py-3 sm:py-4 w-full">
+        <div class="max-w-5xl mx-auto flex items-center justify-between">
+            <div class="flex items-center gap-2.5 sm:gap-3 cursor-pointer" id="logo-home">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[var(--primary-50)] flex items-center justify-center text-[var(--primary)] font-bold text-base sm:text-lg">
+                    🛡️
+                </div>
+                <h1 class="font-bold text-lg sm:text-xl text-[var(--primary)] tracking-tight">Cubrí</h1>
+            </div>
+            <button id="btn-volver" class="btn text-xs sm:text-sm font-semibold text-[var(--muted)] hover:text-[var(--text)] flex items-center gap-1.5 py-1.5 px-3 rounded-lg border border-[var(--border)] bg-white cursor-pointer" hidden>
+                ← Volver
+            </button>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main class="max-w-xl lg:max-w-4xl mx-auto px-3.5 sm:px-4 py-4 sm:py-6 lg:py-10 w-full flex-grow flex flex-col justify-center overflow-x-hidden">
+
+        <!-- Stepper visual responsive para 390px (mobile) y desktop -->
+        <div id="contenedor-stepper" class="bg-white px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl border border-[var(--border)] shadow-xs mb-5 flex items-center justify-between text-xs font-semibold w-full" hidden>
+            <div id="step-1" class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                <span class="step-badge w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">1</span>
+                <span class="step-text hidden sm:inline">Cotizar</span>
+            </div>
+            <div id="line-1-2" class="flex-1 h-[2px] bg-gray-200 mx-1 sm:mx-2 min-w-[8px] max-w-[48px]"></div>
+            <div id="step-2" class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                <span class="step-badge w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">2</span>
+                <span class="step-text hidden sm:inline">Plan</span>
+            </div>
+            <div id="line-2-3" class="flex-1 h-[2px] bg-gray-200 mx-1 sm:mx-2 min-w-[8px] max-w-[48px]"></div>
+            <div id="step-3" class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                <span class="step-badge w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">3</span>
+                <span class="step-text hidden sm:inline">Datos</span>
+            </div>
+            <div id="line-3-4" class="flex-1 h-[2px] bg-gray-200 mx-1 sm:mx-2 min-w-[8px] max-w-[48px]"></div>
+            <div id="step-4" class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+                <span class="step-badge w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold">4</span>
+                <span class="step-text hidden sm:inline">Pago</span>
+            </div>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- PASO 0: Inicio / Catálogo                  -->
+        <!-- ========================================== -->
+        <section data-paso="0" class="w-full">
+            <div class="grid gap-6 lg:gap-8 lg:grid-cols-2 items-center">
+                <div class="flex flex-col justify-center">
+                    <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[var(--text)] leading-tight mb-3 sm:mb-4">
+                        Protegé lo que más usás en menos de 3 minutos
+                    </h2>
+                    <p class="text-sm sm:text-base text-[var(--muted)] mb-5">
+                        Elegí qué querés asegurar. Cotizás al instante y contratás 100% online.
+                    </p>
+                    <div class="hidden lg:flex border border-[var(--border)] rounded-2xl p-4 items-center gap-3 bg-white shadow-xs">
+                        <span class="bg-emerald-100 text-emerald-800 text-xs font-bold px-2.5 py-1 rounded-md uppercase tracking-wider">NUEVO</span>
+                        <p class="text-sm text-[var(--text)] font-medium">Primer mes con 20% OFF en todos los planes</p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-4 sm:p-6 rounded-3xl shadow-sm border border-[var(--border)] flex flex-col gap-3.5 sm:gap-4">
+                    <div class="grid grid-cols-2 gap-2.5 sm:gap-3.5">
+                        <!-- Producto Celular (Habilitado) -->
+                        <div class="border-2 border-[var(--primary)] bg-white rounded-2xl p-3 sm:p-4 flex flex-col justify-between shadow-xs">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-[var(--primary-50)] flex items-center justify-center text-[var(--primary)] mb-3 text-lg sm:text-xl">
+                                📱
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between gap-1">
+                                    <h3 class="font-bold text-sm sm:text-base text-[var(--text)]">Celular</h3>
+                                    <span class="bg-emerald-100 text-emerald-800 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Activo</span>
+                                </div>
+                                <p class="text-[11px] sm:text-xs text-[var(--muted)] mt-0.5">Robo y rotura</p>
+                            </div>
+                        </div>
+
+                        <!-- Hogar (Próximamente) -->
+                        <div class="border border-[var(--border)] bg-white/70 rounded-2xl p-3 sm:p-4 flex flex-col justify-between opacity-75">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 mb-3 text-lg sm:text-xl">
+                                🏠
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between gap-1">
+                                    <h3 class="font-bold text-sm sm:text-base text-[var(--muted)]">Hogar</h3>
+                                    <span class="bg-gray-100 text-gray-600 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Próximamente</span>
+                                </div>
+                                <p class="text-[11px] sm:text-xs text-[var(--muted)] mt-0.5">Incendio y robo</p>
+                            </div>
+                        </div>
+
+                        <!-- Bicicleta (Próximamente) -->
+                        <div class="border border-[var(--border)] bg-white/70 rounded-2xl p-3 sm:p-4 flex flex-col justify-between opacity-75">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 mb-3 text-lg sm:text-xl">
+                                🚲
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between gap-1">
+                                    <h3 class="font-bold text-sm sm:text-base text-[var(--muted)]">Bicicleta</h3>
+                                    <span class="bg-gray-100 text-gray-600 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Próximamente</span>
+                                </div>
+                                <p class="text-[11px] sm:text-xs text-[var(--muted)] mt-0.5">Robo total</p>
+                            </div>
+                        </div>
+
+                        <!-- Viaje (Próximamente) -->
+                        <div class="border border-[var(--border)] bg-white/70 rounded-2xl p-3 sm:p-4 flex flex-col justify-between opacity-75">
+                            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 mb-3 text-lg sm:text-xl">
+                                ✈️
+                            </div>
+                            <div>
+                                <div class="flex items-center justify-between gap-1">
+                                    <h3 class="font-bold text-sm sm:text-base text-[var(--muted)]">Viaje</h3>
+                                    <span class="bg-gray-100 text-gray-600 text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-full uppercase tracking-wider">Próximamente</span>
+                                </div>
+                                <p class="text-[11px] sm:text-xs text-[var(--muted)] mt-0.5">Asistencia</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" id="btn-cotizar-celular" class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-md bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base cursor-pointer mt-1">
+                        Cotizar seguro de Celular
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PASO 1: Cotizar (Cotizador)                -->
+        <!-- ========================================== -->
+        <section data-paso="1" hidden class="w-full">
+            <div class="card bg-white p-4 sm:p-8 lg:p-10 rounded-3xl border border-[var(--border)] shadow-sm">
+                <h3 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--text)] mb-5">Contanos sobre tu celular</h3>
+
+                <form id="form-cotizar" class="flex flex-col gap-4 sm:gap-5">
+                    
+                    <!-- Campo Marca -->
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="marca" class="font-semibold text-sm text-[var(--text)]">Marca</label>
+                        <div class="relative">
+                            <select id="marca" name="marca" class="w-full border border-[var(--border)] rounded-xl p-3 sm:p-3.5 bg-white text-sm appearance-none focus:outline-hidden focus:border-[var(--primary)] cursor-pointer pr-10">
+                                <option value="" disabled selected>Elegí una marca</option>
+                                <option value="Samsung">Samsung</option>
+                                <option value="Apple">Apple</option>
+                                <option value="Motorola">Motorola</option>
+                                <option value="Xiaomi">Xiaomi</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                            <div class="absolute inset-y-0 right-0 flex items-center px-3.5 pointer-events-none text-[var(--muted)] text-xs">
+                                ▼
+                            </div>
+                        </div>
+                        <p id="error-marca" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Elegí una marca</p>
+                    </div>
+
+                    <!-- Campo Modelo -->
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="modelo" class="font-semibold text-sm text-[var(--text)]">Modelo</label>
+                        <input id="modelo" type="text" placeholder="Ej.: Galaxy A55" class="border border-[var(--border)] rounded-xl p-3 sm:p-3.5 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                        <p id="error-modelo" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Ingresá el modelo del equipo</p>
+                    </div>
+
+                    <!-- Campo Valor -->
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="valor" class="font-semibold text-sm text-[var(--text)]">Valor del equipo</label>
+                        <input id="valor" type="text" inputmode="numeric" placeholder="$ 600.000" class="border border-[var(--border)] rounded-xl p-3 sm:p-3.5 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                        <p class="text-xs text-[var(--muted)]">Entre $100.000 y $2.500.000</p>
+                        <p id="error-valor" role="alert" class="text-xs text-[var(--error)] font-medium hidden">El valor debe estar entre $100.000 y $2.500.000</p>
+                    </div>
+
+                    <!-- Campo Antigüedad -->
+                    <div role="group" class="field flex flex-col gap-2">
+                        <label class="font-semibold text-sm text-[var(--text)]">Antigüedad</label>
+                        <div class="grid grid-cols-3 gap-1.5 sm:gap-2.5">
+                            <label class="border-2 border-[var(--border)] rounded-xl py-2.5 px-1 sm:px-2 text-center text-[11px] sm:text-xs font-semibold cursor-pointer hover:border-[var(--primary)] has-checked:border-[var(--primary)] has-checked:bg-[var(--primary-50)] has-checked:text-[var(--primary)] transition-all flex items-center justify-center">
+                                <input type="radio" name="antiguedad" value="menos-1" class="sr-only">
+                                Menos de 1 año
+                            </label>
+                            <label class="border-2 border-[var(--border)] rounded-xl py-2.5 px-1 sm:px-2 text-center text-[11px] sm:text-xs font-semibold cursor-pointer hover:border-[var(--primary)] has-checked:border-[var(--primary)] has-checked:bg-[var(--primary-50)] has-checked:text-[var(--primary)] transition-all flex items-center justify-center">
+                                <input type="radio" name="antiguedad" value="1-2" class="sr-only">
+                                1 a 2 años
+                            </label>
+                            <label class="border-2 border-[var(--border)] rounded-xl py-2.5 px-1 sm:px-2 text-center text-[11px] sm:text-xs font-semibold cursor-pointer hover:border-[var(--primary)] has-checked:border-[var(--primary)] has-checked:bg-[var(--primary-50)] has-checked:text-[var(--primary)] transition-all flex items-center justify-center">
+                                <input type="radio" name="antiguedad" value="mas-2" class="sr-only">
+                                Más de 2 años
+                            </label>
+                        </div>
+                        <p id="error-antiguedad" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Indicá la antigüedad</p>
+                    </div>
+
+                    <div class="mt-3 flex flex-col gap-2">
+                        <button type="submit" id="btn-ver-planes" disabled class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-xs bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base opacity-50 cursor-not-allowed">
+                            Ver planes
+                        </button>
+                        <p class="text-center text-xs text-[var(--muted)]">El botón se habilita cuando el formulario es válido</p>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PASO 2: Elegir Plan                        -->
+        <!-- ========================================== -->
+        <section data-paso="2" hidden class="w-full">
+            <h2 class="text-xl sm:text-2xl font-bold text-[var(--text)] mb-4 sm:mb-6">Elegí tu plan</h2>
+            <div class="grid gap-5 lg:grid-cols-[1fr_360px] items-start w-full">
+                
+                <!-- Cards de planes dinámicas -->
+                <div id="contenedor-planes" class="flex flex-col gap-3.5 sm:gap-4">
+                    <!-- Se carga mediante renderPlanes() en un solo recuadro fijo por plan -->
+                </div>
+
+                <!-- Resumen lateral -->
+                <div class="bg-white p-4 sm:p-5 rounded-3xl border border-[var(--border)] shadow-sm flex flex-col gap-4">
+                    <div class="flex justify-between items-center text-sm border-b border-[var(--border)] pb-3">
+                        <span id="resumen-modelo" class="text-[var(--muted)] font-medium text-xs sm:text-sm">Tu equipo</span>
+                        <span id="resumen-precio" class="font-extrabold text-[var(--text)] text-sm sm:text-base">-</span>
+                    </div>
+
+                    <button type="button" id="btn-continuar-plan" class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-md bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base cursor-pointer">
+                        Continuar
+                    </button>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PASO 3: Datos personales                   -->
+        <!-- ========================================== -->
+        <section data-paso="3" hidden class="w-full">
+            <div class="card bg-white p-4 sm:p-8 rounded-3xl border border-[var(--border)] shadow-sm">
+                <h3 class="text-xl sm:text-2xl font-bold text-[var(--text)] mb-5">Tus datos personales</h3>
+
+                <form id="form-datos" class="flex flex-col gap-3.5 sm:gap-4">
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        <div role="group" class="field flex flex-col gap-1.5">
+                            <label for="nombre" class="font-semibold text-sm text-[var(--text)]">Nombre</label>
+                            <input id="nombre" type="text" placeholder="Ej: Santiago" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                            <p id="error-nombre" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Ingresá tu nombre / apellido</p>
+                        </div>
+                        <div role="group" class="field flex flex-col gap-1.5">
+                            <label for="apellido" class="font-semibold text-sm text-[var(--text)]">Apellido</label>
+                            <input id="apellido" type="text" placeholder="Ej: Corleta" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                            <p id="error-apellido" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Ingresá tu nombre / apellido</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5 sm:gap-4">
+                        <div role="group" class="field flex flex-col gap-1.5">
+                            <label for="dni" class="font-semibold text-sm text-[var(--text)]">DNI</label>
+                            <input id="dni" type="text" placeholder="Ej: 44282429" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                            <p id="error-dni" role="alert" class="text-xs text-[var(--error)] font-medium hidden">El DNI debe tener 7 u 8 números</p>
+                        </div>
+                        <div role="group" class="field flex flex-col gap-1.5">
+                            <label for="nacimiento" class="font-semibold text-sm text-[var(--text)]">Fecha de nacimiento</label>
+                            <input id="nacimiento" type="text" placeholder="dd/mm/aaaa" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                            <p id="error-nacimiento" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Tenés que ser mayor de edad</p>
+                        </div>
+                    </div>
+
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="email" class="font-semibold text-sm text-[var(--text)]">Email</label>
+                        <input id="email" type="email" placeholder="Ej: usuario@gmail.com" class="border border-[var(--border)] bg-white rounded-xl p-3 text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                        <p id="error-email" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Ingresá un email válido</p>
+                    </div>
+
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="celular" class="font-semibold text-sm text-[var(--text)]">Celular</label>
+                        <input id="celular" type="tel" placeholder="Ej: 11 5555-1234" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                        <p id="error-celular" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Ej.: 11 5555-1234</p>
+                    </div>
+
+                    <div class="flex flex-col gap-1 mt-1">
+                        <div class="flex items-start gap-2.5">
+                            <input id="terminos" type="checkbox" class="w-5 h-5 accent-[var(--primary)] rounded-md cursor-pointer mt-0.5 shrink-0">
+                            <label for="terminos" class="text-xs text-[var(--muted)] leading-relaxed cursor-pointer">
+                                Acepto los términos y condiciones y la política de privacidad.
+                            </label>
+                        </div>
+                        <p id="error-terminos" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Tenés que aceptar los términos</p>
+                    </div>
+
+                    <div class="mt-3 flex flex-col gap-2">
+                        <button type="submit" id="btn-continuar-pago" disabled class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-xs bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base opacity-50 cursor-not-allowed">
+                            Continuar al pago
+                        </button>
+                        <p class="text-center text-xs text-[var(--muted)]">El botón se habilita cuando el formulario es válido</p>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PASO 4: Pago                               -->
+        <!-- ========================================== -->
+        <section data-paso="4" hidden class="w-full">
+            <!-- Resumen final generado desde el estado -->
+            <div class="bg-[var(--primary-50)] p-4 sm:p-5 rounded-2xl sm:rounded-3xl border border-indigo-100 mb-4 shadow-xs">
+                <div class="flex justify-between items-center text-xs mb-1.5">
+                    <span class="text-[var(--muted)]">Seguro</span>
+                    <span id="resumen-plan-nombre" class="font-bold text-[var(--text)]">Seguro Celular · Plus</span>
+                </div>
+                <div class="flex justify-between items-center text-xs mb-1.5">
+                    <span class="text-[var(--muted)]">Equipo</span>
+                    <span id="resumen-equipo" class="font-bold text-[var(--text)]">-</span>
+                </div>
+                <div class="flex justify-between items-center text-xs mb-2.5">
+                    <span class="text-[var(--muted)]">Titular</span>
+                    <span id="resumen-titular" class="font-bold text-[var(--text)]">-</span>
+                </div>
+                <div class="border-t border-indigo-100 pt-2.5 flex justify-between items-center">
+                    <span class="text-xs text-[var(--muted)] font-semibold">Total mensual</span>
+                    <span id="resumen-pago-monto" class="text-lg sm:text-xl font-black text-[var(--text)]">-</span>
+                </div>
+            </div>
+
+            <div class="card bg-white p-4 sm:p-8 rounded-3xl border border-[var(--border)] shadow-sm">
+                <form id="form-pago" class="flex flex-col gap-3.5 sm:gap-4">
+                    
+                    <div class="flex flex-col sm:flex-row gap-2">
+                        <label class="flex-1 border-2 border-[var(--primary)] bg-[var(--primary-50)] rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 cursor-pointer">
+                            <input type="radio" name="medio_pago" value="credito" checked class="w-4 h-4 sm:w-5 sm:h-5 accent-[var(--primary)]">
+                            <span class="font-bold text-xs sm:text-sm text-[var(--text)]">Tarjeta de crédito</span>
+                        </label>
+                        <label class="flex-1 border border-[var(--border)] rounded-xl sm:rounded-2xl p-3 sm:p-3.5 flex items-center gap-2.5 cursor-pointer hover:border-[var(--primary)]">
+                            <input type="radio" name="medio_pago" value="debito" class="w-4 h-4 sm:w-5 sm:h-5 accent-[var(--primary)]">
+                            <span class="font-semibold text-xs sm:text-sm text-[var(--text)]">Tarjeta de débito</span>
+                        </label>
+                    </div>
+
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="tarjeta" class="font-semibold text-sm text-[var(--text)]">Número de tarjeta</label>
+                        <input id="tarjeta" type="text" placeholder="4111 1111 1111 1111" maxlength="19" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)] tracking-wider">
+                        <p id="error-tarjeta" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Número de tarjeta inválido</p>
+                    </div>
+
+                    <div role="group" class="field flex flex-col gap-1.5">
+                        <label for="titular" class="font-semibold text-sm text-[var(--text)]">Nombre del titular</label>
+                        <input id="titular" type="text" placeholder="Como figura en la tarjeta" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                        <p id="error-titular" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Ingresá el nombre del titular</p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 sm:gap-4">
+                        <div role="group" class="field flex flex-col gap-1.5">
+                            <label for="vencimiento" class="font-semibold text-sm text-[var(--text)]">Vencimiento</label>
+                            <input id="vencimiento" type="text" placeholder="MM/AA" maxlength="5" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                            <p id="error-vencimiento" role="alert" class="text-xs text-[var(--error)] font-medium hidden">Vencimiento inválido</p>
+                        </div>
+                        <div role="group" class="field flex flex-col gap-1.5">
+                            <label for="cvv" class="font-semibold text-sm text-[var(--text)]">CVV</label>
+                            <input id="cvv" type="password" placeholder="123" maxlength="3" class="border border-[var(--border)] rounded-xl p-3 bg-white text-sm focus:outline-hidden focus:border-[var(--primary)]">
+                            <p id="error-cvv" role="alert" class="text-xs text-[var(--error)] font-medium hidden">CVV inválido</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 text-xs text-amber-800 leading-relaxed">
+                        <strong>Simulación:</strong> Usá <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">4111 1111 1111 1111</code> para éxito o <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">4000 0000 0000 0002</code> para simular error.
+                    </div>
+
+                    <div class="mt-2 flex flex-col gap-2">
+                        <button type="submit" id="btn-pagar" disabled class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-md bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base opacity-50 cursor-not-allowed">
+                            Pagar y contratar
+                        </button>
+                        <p class="text-center text-xs text-[var(--muted)]">El botón se habilita cuando el formulario es válido</p>
+                    </div>
+
+                </form>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PASO 5: Éxito / Confirmación               -->
+        <!-- ========================================== -->
+        <section data-paso="5" hidden class="max-w-md mx-auto w-full text-center px-1 sm:px-0">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-emerald-100 flex items-center justify-center text-[var(--success)] text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 mx-auto">
+                ✓
+            </div>
+
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--text)] mb-2">
+                ¡Listo, <span id="exito-nombre-usuario">Usuario</span>!<br>Tu celular ya está protegido
+            </h2>
+            <p class="text-xs sm:text-sm text-[var(--muted)] mb-5 sm:mb-6">
+                Te enviamos la póliza a <span id="exito-email-usuario" class="font-semibold text-[var(--text)]">correo@ejemplo.com</span>
+            </p>
+
+            <div id="exito-nro-poliza" class="bg-[var(--primary-50)] text-[var(--primary)] font-extrabold text-base sm:text-lg px-4 sm:px-6 py-2.5 sm:py-3 rounded-2xl tracking-wider mb-5 sm:mb-6 border border-indigo-100 font-mono">
+                POL-2026-000000
+            </div>
+
+            <div class="bg-white p-4 sm:p-5 rounded-3xl border border-[var(--border)] shadow-xs w-full text-left flex flex-col gap-2.5 mb-6 sm:mb-8 text-xs">
+                <div class="flex justify-between items-center">
+                    <span class="text-[var(--muted)] font-medium">Plan</span>
+                    <span id="exito-plan-nombre" class="font-bold text-[var(--text)]">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[var(--muted)] font-medium">Equipo</span>
+                    <span id="exito-equipo-nombre" class="font-bold text-[var(--text)]">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[var(--muted)] font-medium">Vigencia desde</span>
+                    <span id="exito-fecha-vigencia" class="font-bold text-[var(--text)]">-</span>
+                </div>
+                <div class="flex justify-between items-center">
+                    <span class="text-[var(--muted)] font-medium">Cuota mensual</span>
+                    <span id="exito-plan-precio" class="font-extrabold text-[var(--text)] text-sm sm:text-base">$ 0</span>
+                </div>
+            </div>
+
+            <div class="w-full flex flex-col gap-2.5 sm:gap-3">
+                <button type="button" id="btn-descargar-poliza" class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-md bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base cursor-pointer">
+                    Descargar póliza
+                </button>
+                <button type="button" id="btn-volver-inicio" class="w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold bg-white text-[var(--primary)] hover:bg-[var(--primary-50)] transition-colors text-sm sm:text-base border border-[var(--border)] cursor-pointer">
+                    Volver al inicio
+                </button>
+            </div>
+        </section>
+
+        <!-- ========================================== -->
+        <!-- PASO 6: Error de Pago                      -->
+        <!-- ========================================== -->
+        <section data-paso="6" hidden class="max-w-md mx-auto w-full text-center px-1 sm:px-0">
+            <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-red-100 flex items-center justify-center text-[var(--error)] text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 mx-auto">
+                ✕
+            </div>
+
+            <h2 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-[var(--text)] mb-2.5 sm:mb-3">
+                No pudimos procesar el pago
+            </h2>
+            <p class="text-xs sm:text-sm text-[var(--muted)] leading-relaxed mb-5 sm:mb-6">
+                La tarjeta fue rechazada. Revisá los datos o probá con otro medio de pago. Tus datos quedaron guardados.
+            </p>
+
+            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3 sm:p-4 text-xs text-amber-800 text-left mb-6 sm:mb-8 w-full leading-relaxed">
+                Tarjeta de prueba que fuerza el error: <code class="bg-amber-100 px-1.5 py-0.5 rounded font-mono font-bold">4000 0000 0000 0002</code>.
+            </div>
+
+            <div class="w-full flex flex-col gap-2.5 sm:gap-3">
+                <button type="button" id="btn-reintentar-pago" class="btn w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold shadow-md bg-[var(--primary)] text-white hover:bg-[var(--primary-700)] transition-colors text-sm sm:text-base cursor-pointer">
+                    Reintentar pago
+                </button>
+                <button type="button" id="btn-cambiar-medio" class="w-full h-11 sm:h-12 flex items-center justify-center rounded-xl font-semibold bg-white text-[var(--primary)] hover:bg-[var(--primary-50)] transition-colors text-sm sm:text-base border border-[var(--border)] cursor-pointer">
+                    Cambiar medio de pago
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-[var(--border)] py-3 sm:py-4 text-center text-xs text-[var(--muted)]">
+        Cubrí Seguros © 2026 · Licenciatura en Sistemas de Información (Diseño UXUI)
+    </footer>
+
+</body>
+</html>
