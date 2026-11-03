@@ -9,7 +9,7 @@ El objetivo del trabajo era armar el front-end completo de un checkout para cont
 ## 💻 ¿Cómo correr el proyecto?
 
 
-Para probarlo sin problemas, puede ingresar a la siguiente URL: 
+Para probarlo sin problemas, puede ingresar a la siguiente URL: https://tp5-contratcion-digital-seguros.netlify.app/
 
 
 
